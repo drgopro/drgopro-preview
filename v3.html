@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>닥터고블린컴퍼니 — 시안 v3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Space+Grotesk:ital,wght@0,500;0,600;0,700;1,600&display=swap">
+<style>
+  :root{
+    --bg:#EFEBE2;
+    --ink:#0B0B0C;
+    --ink-soft:#3A3A3E;
+    --ink-mute:#6A6A70;
+    --ink-faint:#9A9AA0;
+    --blue:#1F5BFF;
+    --blue-soft:#9DB7FF;
+    --blue-tint:#E3E8F5;
+    --red:#E8402B;
+    --red-ink:#FFFFFF;
+    --card:#FFFFFF;
+    --line:rgba(11,11,12,.12);
+    --line-soft:rgba(11,11,12,.08);
+    --dark-body:#B9C0CC;
+    --mono:ui-monospace,Menlo,Consolas,monospace;
+    --disp:'Space Grotesk',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;font-size:16px}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:26px}
+  @keyframes dgBlink{0%,100%{opacity:1}50%{opacity:.25}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .card{transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
+  .card:hover{transform:translateY(-3px);border-color:rgba(31,91,255,.4)}
+  a:focus-visible{outline:2.5px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+  .note-bar{background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;gap:14px;padding:9px 16px;font-size:12.5px;font-weight:600}
+  .note-bar a{color:#D6E0FF;font-weight:700}
+
+  /* ── header: 로고 / 좌측 정렬 네비 / 우측 CTA ── */
+  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--ink);color:var(--bg)}
+  .nav{height:64px;display:flex;align-items:center;gap:34px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16.5px;letter-spacing:-.02em}
+  .logo-mark{width:28px;height:28px;border-radius:8px;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:14px}
+  .nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:600;color:#C7CDD8}
+  .nav-links a:hover{color:#fff}
+  .nav-cta{margin-left:auto;display:inline-flex;align-items:center;gap:7px;background:var(--red);color:var(--red-ink);font-size:13.5px;font-weight:800;padding:10px 18px;border-radius:100px;white-space:nowrap}
+  .dot-live{width:7px;height:7px;border-radius:50%;background:#FFD9D2;animation:dgBlink 1.6s infinite}
+
+  /* ── hero: 좌 텍스트 / 우 일러스트, 블랙 밴드 ── */
+  .hero-band{background:var(--ink);color:var(--bg);overflow:hidden}
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;min-height:480px;padding-block:56px}
+  .hero h1{font-size:clamp(38px,4.6vw,58px);line-height:1.12;font-weight:800;letter-spacing:-.04em;text-wrap:balance;margin-bottom:20px}
+  .hero h1 em{font-family:var(--disp);font-weight:600;font-style:italic;color:var(--blue-soft)}
+  .hero p{font-size:17px;line-height:1.7;color:var(--dark-body);max-width:440px;margin-bottom:32px}
+  .cta-row{display:flex;gap:11px;flex-wrap:wrap}
+  .btn-cta{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:var(--red-ink);font-size:15px;font-weight:800;padding:15px 28px;border-radius:100px}
+  .btn-white{display:inline-flex;align-items:center;gap:8px;background:var(--bg);color:var(--ink);font-size:15px;font-weight:800;padding:15px 26px;border-radius:100px}
+  .hero-art{position:relative;min-height:380px}
+  .hero-art svg{width:100%;height:100%;position:absolute;inset:0}
+
+  /* ── 섹션 공통: 밴드 + 헤딩 + 카드 그리드 ── */
+  section{padding-block:72px 76px;scroll-margin-top:80px}
+  .band-white{background:#F7F4EC;border-block:1px solid var(--line-soft)}
+  .band-dark{background:var(--ink);color:var(--bg)}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+  .sec-title{font-size:clamp(26px,3.2vw,38px);font-weight:800;letter-spacing:-.03em}
+  .sec-sub{font-size:14.5px;color:var(--ink-mute);margin-top:8px}
+  .band-dark .sec-sub{color:var(--dark-body)}
+  .link-more{font-size:14px;font-weight:700;color:var(--blue);white-space:nowrap}
+  .band-dark .link-more{color:var(--blue-soft)}
+
+  /* 치지직 Docs식 가로형 카드: 아이콘 타일 + 제목 + 한 줄 설명 */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .hcard{display:flex;gap:18px;align-items:flex-start;background:var(--card);border:1px solid var(--line-soft);border-radius:18px;padding:24px}
+  .hcard .ico{flex:none;width:56px;height:56px;border-radius:16px;background:var(--blue-tint);display:flex;align-items:center;justify-content:center;font-size:26px}
+  .hcard h3{font-size:17.5px;font-weight:800;letter-spacing:-.01em;margin-bottom:5px}
+  .hcard h3 small{font-family:var(--disp);font-size:11.5px;font-weight:600;letter-spacing:.08em;color:var(--blue);display:block;margin-bottom:4px;text-transform:uppercase}
+  .hcard p{font-size:13.5px;color:var(--ink-mute);line-height:1.6}
+  .band-dark .hcard{background:#17181C;border-color:rgba(255,255,255,.08)}
+  .band-dark .hcard p{color:var(--dark-body)}
+  .band-dark .hcard .ico{background:rgba(31,91,255,.18)}
+
+  /* 상품 카드 (세로형) */
+  .prod{background:var(--card);border:1px solid var(--line-soft);border-radius:18px;overflow:hidden;display:block}
+  .prod-img{position:relative;aspect-ratio:4/3;max-width:100%;background-color:var(--blue-tint);background-image:repeating-linear-gradient(135deg,rgba(31,91,255,.08) 0 11px,transparent 11px 22px);display:flex;align-items:center;justify-content:center}
+  .ph-note{font-family:var(--mono);font-size:11.5px;color:#7E8BA8}
+  .prod-cat{position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;color:var(--blue);background:#fff;border-radius:100px;padding:4px 11px}
+  .prod-body{padding:15px 17px 17px}
+  .prod-body h3{font-size:15px;font-weight:800}
+  .prod-body .sub{font-size:12.5px;color:#8A8A90;margin-top:3px}
+
+  /* 게시판 리스트 카드 */
+  .board{background:var(--card);border:1px solid var(--line-soft);border-radius:18px;padding:24px;display:flex;flex-direction:column}
+  .board-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .board-head h3{font-size:18px;font-weight:800}
+  .free{font-size:11px;font-weight:700;color:var(--blue);background:var(--blue-tint);border-radius:100px;padding:4px 11px}
+  .post{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-block:10px;border-top:1px solid var(--line-soft);font-size:14px}
+  .post .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .post .m{font-size:12px;color:var(--ink-faint);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* 소개 밴드 */
+  .about{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  .about p{font-size:16px;color:var(--dark-body);line-height:1.75;margin-top:14px;max-width:480px}
+  .stat-row{display:flex;gap:38px;flex-wrap:wrap;margin-top:28px}
+  .stat b{display:block;font-family:var(--disp);font-size:30px;font-weight:700}
+  .stat span{font-size:12.5px;color:#7E8BA8}
+  .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .member{background:#17181C;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:center}
+  .avatar{flex:none;width:46px;height:46px;border-radius:14px;background:rgba(31,91,255,.18);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;color:#7E8BA8}
+  .member h3{font-size:14.5px;font-weight:800}
+  .member .role{font-size:12px;color:var(--blue-soft);font-weight:700;margin-top:2px}
+
+  /* 마지막 CTA */
+  .cta-final{text-align:center;padding-block:84px}
+  .cta-final .big{font-size:clamp(30px,4.6vw,52px);font-weight:800;letter-spacing:-.035em;margin-bottom:16px;text-wrap:balance}
+  .cta-final p{font-size:16px;color:var(--ink-mute);margin-bottom:30px}
+  .hours{margin-top:22px;font-size:13px;color:var(--ink-faint)}
+
+  /* ── 푸터: 로고 + 멀티 컬럼 링크 ── */
+  footer{background:var(--ink);color:var(--bg);padding-block:56px 46px}
+  .foot{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:34px}
+  .foot h4{font-size:14px;font-weight:800;margin-bottom:14px}
+  .foot ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:13.5px;color:#9BA3AF}
+  .foot ul a:hover{color:#fff}
+  .foot-note{margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;color:#7E8BA8;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .fab{position:fixed;right:22px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:60;width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:0 8px 22px rgba(11,11,12,.25)}
+
+  @media (max-width:920px){
+    .nav-links{display:none}
+    .hero{grid-template-columns:1fr;min-height:0}
+    .hero-art{min-height:260px}
+    .grid-3,.grid-4{grid-template-columns:1fr 1fr}
+    .about{grid-template-columns:1fr;gap:30px}
+    .foot{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .wrap{padding-inline:18px}
+    .grid-2,.grid-3{grid-template-columns:1fr}
+    .grid-4{grid-template-columns:1fr 1fr;gap:10px}
+    .team-grid{grid-template-columns:1fr}
+    .foot{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="note-bar"><span>레이아웃 시안 · v3</span><span style="opacity:.4">|</span><a href="./index.html">← 벤토형 시안(v2) 보기</a></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="logo-mark">D</span>닥터고블린컴퍼니</a>
+    <nav class="nav-links">
+      <a href="#services">서비스</a>
+      <a href="#shop">쇼핑몰</a>
+      <a href="#work">사례·소식</a>
+      <a href="#community">강좌·QNA</a>
+      <a href="#about">소개</a>
+    </nav>
+    <a href="#contact" class="nav-cta">💬 상담하기<span class="dot-live"></span></a>
+  </div>
+</header>
+
+<div class="hero-band">
+  <div class="wrap hero">
+    <div>
+      <h1>방송에 필요한<br>모든 걸, <em>한 팀</em>이.</h1>
+      <p>세팅 · 촬영 · 중계 · 장비 대여 · 소스 제작까지. 무엇이 필요한지 몰라도, 카카오톡으로 상황만 말씀하시면 처음부터 끝까지 함께 만듭니다.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn-cta">💬 카카오톡 상담</a>
+        <a href="#services" class="btn-white">서비스 보기</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 520 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+        <circle cx="70" cy="60" r="2" fill="#5B6472"/><circle cx="190" cy="30" r="1.6" fill="#5B6472"/><circle cx="330" cy="52" r="2.2" fill="#5B6472"/><circle cx="460" cy="36" r="1.7" fill="#5B6472"/><circle cx="500" cy="130" r="2" fill="#5B6472"/><circle cx="40" cy="180" r="1.8" fill="#5B6472"/><circle cx="480" cy="330" r="2" fill="#5B6472"/><circle cx="120" cy="330" r="1.6" fill="#5B6472"/>
+        <circle cx="260" cy="205" r="150" fill="#1F5BFF" opacity=".14"/>
+        <circle cx="260" cy="205" r="104" fill="#1F5BFF" opacity=".16"/>
+        <rect x="176" y="150" width="168" height="112" rx="22" fill="#EFEBE2"/>
+        <circle cx="260" cy="206" r="34" fill="#0B0B0C"/>
+        <circle cx="260" cy="206" r="20" fill="#1F5BFF"/>
+        <circle cx="270" cy="197" r="6.5" fill="#EFEBE2"/>
+        <rect x="304" y="163" width="22" height="12" rx="6" fill="#E8402B"/>
+        <rect x="344" y="176" width="34" height="60" rx="10" fill="#EFEBE2" transform="rotate(8 344 176)"/>
+        <rect x="128" y="196" width="14" height="66" rx="7" fill="#EFEBE2"/>
+        <circle cx="135" cy="188" r="17" fill="#E8402B"/>
+        <path d="M215 300c30 18 62 18 92 0" stroke="#9DB7FF" stroke-width="6" stroke-linecap="round"/>
+        <path d="M198 318c40 26 84 26 124 0" stroke="#9DB7FF" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+        <text x="260" y="372" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="12" fill="#5B6472">[ 일러스트 / 대표 사진 영역 ]</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<section class="wrap" id="services">
+  <div class="sec-head">
+    <div>
+      <div class="sec-title">서비스</div>
+      <div class="sec-sub">인터넷 방송의 모든 단계를 다룹니다 · 상세 페이지에서 금액까지 확인하세요</div>
+    </div>
+    <a href="#" class="link-more">상세·가격 안내 →</a>
+  </div>
+  <div class="grid-2">
+    <a href="#" class="card hcard">
+      <span class="ico">🛠️</span>
+      <div><h3><small>Setup</small>세팅 · 기술 지원</h3><p>원격 지원 · 방문 세팅 · 스튜디오 구축 · 교육·컨설팅. 가장 많이 찾는 대표 서비스입니다.</p></div>
+    </a>
+    <a href="#" class="card hcard">
+      <span class="ico">📹</span>
+      <div><h3><small>Live</small>촬영 · 중계</h3><p>멀티캠 중계 촬영과 실시간 송출, 야외 로케이션까지 현장에서 해결합니다.</p></div>
+    </a>
+    <a href="#" class="card hcard">
+      <span class="ico">🏠</span>
+      <div><h3><small>Rental</small>장비 · 공간 대여</h3><p>월 정기 렌탈(집 설치형), 단품 대여, 방송룸 대여를 운영합니다.</p></div>
+    </a>
+    <a href="#" class="card hcard">
+      <span class="ico">🎨</span>
+      <div><h3><small>Source</small>소스 제작</h3><p>오버레이·자막 디자인, 인트로·시그 영상, 방송용 음향 소스를 제작합니다.</p></div>
+    </a>
+  </div>
+</section>
+
+<div class="band-white">
+  <section class="wrap" id="shop" style="padding-block:64px">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">쇼핑몰</div>
+        <div class="sec-sub">방송 장비를 직접 골라 구매하고, 세팅까지 한 번에 의뢰하세요</div>
+      </div>
+      <a href="#" class="link-more">쇼핑몰 전체 →</a>
+    </div>
+    <div class="grid-4">
+      <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 제품 사진 ]</span><span class="prod-cat">카메라</span></div><div class="prod-body"><h3>방송용 미러리스</h3><div class="sub">4K · 라이브 송출</div></div></a>
+      <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 제품 사진 ]</span><span class="prod-cat">렌즈</span></div><div class="prod-body"><h3>단렌즈 · 줌렌즈</h3><div class="sub">방송 화각 셀렉</div></div></a>
+      <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 제품 사진 ]</span><span class="prod-cat">오디오</span></div><div class="prod-body"><h3>마이크·인터페이스</h3><div class="sub">방송 음향 셋업</div></div></a>
+      <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 제품 사진 ]</span><span class="prod-cat">조명</span></div><div class="prod-body"><h3>조명·액세서리</h3><div class="sub">키라이트·모니터암</div></div></a>
+    </div>
+  </section>
+</div>
+
+<section class="wrap" id="work">
+  <div class="sec-head">
+    <div>
+      <div class="sec-title">세팅 사례 · 소식</div>
+      <div class="sec-sub">직접 구축한 방송 환경과 닥터고블린의 최신 소식</div>
+    </div>
+    <a href="#" class="link-more">전체 보기 →</a>
+  </div>
+  <div class="grid-3">
+    <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 사례 사진 ]</span><span class="prod-cat">스튜디오 구축</span></div><div class="prod-body"><h3>멀티캠 방송 스튜디오</h3><div class="sub">서울 · 4캠 · 콘솔 오디오 세팅</div></div></a>
+    <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 사례 사진 ]</span><span class="prod-cat">개인 방송실</span></div><div class="prod-body"><h3>투컴 개인 방송 세팅</h3><div class="sub">경기 · 듀얼 모니터암·조명</div></div></a>
+    <a href="#" class="card prod"><div class="prod-img"><span class="ph-note">[ 소식지 커버 ]</span><span class="prod-cat">소식</span></div><div class="prod-body"><h3>닥터고블린 뉴스레터</h3><div class="sub">이달의 세팅 트렌드 · 신제품</div></div></a>
+  </div>
+</section>
+
+<div class="band-white">
+  <section class="wrap" id="community" style="padding-block:64px">
+    <div class="sec-head">
+      <div>
+        <div class="sec-title">강좌 · 무료 QNA</div>
+        <div class="sec-sub">방송 노하우를 배우고, 궁금한 건 무엇이든 물어보세요</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="board">
+        <div class="board-head"><h3>🎓 강좌</h3><a href="#" class="link-more" style="font-size:13.5px">전체 →</a></div>
+        <a href="#" class="post"><span class="t">OBS 처음 설정, 이 순서대로 하면 됩니다</span><span class="m">조회 1,240</span></a>
+        <a href="#" class="post"><span class="t">방송용 오디오 인터페이스 게인 잡는 법</span><span class="m">조회 986</span></a>
+        <a href="#" class="post"><span class="t">투컴 세팅 — NDI로 소스 넘기기</span><span class="m">조회 754</span></a>
+        <a href="#" class="post"><span class="t">조명 하나로 화면 때깔 바꾸는 배치법</span><span class="m">조회 613</span></a>
+      </div>
+      <div class="board">
+        <div class="board-head"><h3>무료 QNA <span class="free">FREE</span></h3><a href="#" class="link-more" style="font-size:13.5px">질문하기 →</a></div>
+        <a href="#" class="post"><span class="t">마이크에서 화이트노이즈가 계속 들려요</span><span class="m">답변 완료</span></a>
+        <a href="#" class="post"><span class="t">캡처보드 없이 스위치 방송 가능한가요?</span><span class="m">답변 완료</span></a>
+        <a href="#" class="post"><span class="t">송출 비트레이트 얼마로 잡아야 하나요?</span><span class="m">답변 2</span></a>
+        <a href="#" class="post"><span class="t">웹캠에서 미러리스로 넘어갈 타이밍</span><span class="m">답변 대기</span></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="band-dark">
+  <section class="wrap" id="about" style="padding-block:72px">
+    <div class="about">
+      <div>
+        <div class="sec-title">방송 기술에 진심인 팀</div>
+        <p>닥터고블린컴퍼니는 인터넷 방송의 기술 문제를 해결하는 팀입니다. 개인 방송인의 첫 세팅부터 기업 스튜디오 구축까지, 현장에서 쌓은 경험으로 방송 환경의 처음과 끝을 함께합니다.</p>
+        <div class="stat-row">
+          <div class="stat"><b>500+</b><span>누적 세팅</span></div>
+          <div class="stat"><b>4.9</b><span>상담 만족도</span></div>
+          <div class="stat"><b>전국</b><span>출장 가능 지역</span></div>
+        </div>
+      </div>
+      <div class="team-grid">
+        <div class="member"><span class="avatar">[사진]</span><div><h3>대표 · 닥터고블린</h3><div class="role">총괄 · 세팅 디렉터</div></div></div>
+        <div class="member"><span class="avatar">[사진]</span><div><h3>팀원 이름</h3><div class="role">촬영 · 중계</div></div></div>
+        <div class="member"><span class="avatar">[사진]</span><div><h3>팀원 이름</h3><div class="role">디자인 · 소스</div></div></div>
+        <div class="member"><span class="avatar">[사진]</span><div><h3>팀원 이름</h3><div class="role">기술 지원</div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="wrap cta-final" id="contact">
+  <div class="big">방송에 필요한 일,<br>무엇이든 물어보세요</div>
+  <p>신청서 없이 카카오톡 대화로 바로 시작합니다. 서비스 의뢰도, 제품 구매 문의도 한 곳에서.</p>
+  <a href="#" class="btn-cta" style="font-size:16px;padding:17px 34px">💬 카카오톡으로 상담하기</a>
+  <div class="hours"><b style="color:var(--ink)">상담 운영</b> 월~목 12:30–20:30 · 금~토 13:00–18:30 · 일 휴무 · 전화 상담 불가</div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="logo" style="margin-bottom:14px"><span class="logo-mark">D</span>닥터고블린컴퍼니</div>
+        <div style="font-size:13px;color:#9BA3AF;line-height:1.7">인터넷 방송 토탈 서비스<br>세팅부터 제작까지, 한 팀이.</div>
+      </div>
+      <div>
+        <h4>서비스</h4>
+        <ul><li><a href="#services">세팅 · 기술 지원</a></li><li><a href="#services">촬영 · 중계</a></li><li><a href="#services">장비 · 공간 대여</a></li><li><a href="#services">소스 제작</a></li></ul>
+      </div>
+      <div>
+        <h4>쇼핑몰 · 커뮤니티</h4>
+        <ul><li><a href="#shop">장비 쇼핑몰</a></li><li><a href="#community">강좌</a></li><li><a href="#community">무료 QNA</a></li><li><a href="#work">세팅 사례</a></li></ul>
+      </div>
+      <div>
+        <h4>회사</h4>
+        <ul><li><a href="#about">회사 소개</a></li><li><a href="#about">팀 소개</a></li><li><a href="#work">소식</a></li><li><a href="#contact">상담 문의</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-note"><span>© 닥터고블린컴퍼니</span><span>상담: 카카오톡 · 전화 상담 불가</span></div>
+  </div>
+</footer>
+
+<a href="#contact" class="fab" title="카카오톡 상담">💬</a>
+</body>
+</html>
