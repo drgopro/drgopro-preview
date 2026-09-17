@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>닥터고블린컴퍼니 — 시안 v4</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Archivo:wght@600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#F3F2F0;
+    --surface:#EAE9E6;
+    --text:#201E1D;
+    --accent:#D1742C;
+    --accent-100:#FBF1E8;
+    --accent-200:#F4DEC9;
+    --accent-300:#EAC29D;
+    --accent-400:#DFA063;
+    --accent-500:#D1742C;
+    --accent-600:#B25E1E;
+    --accent-700:#8E4914;
+    --accent-800:#67350E;
+    --n-600:#7D7979;
+    --n-700:#605D5D;
+    --n-900:#2D2B2B;
+    --divider:rgba(32,30,29,.4);
+    --kakao:#FEE500;--kakao-ink:#3C1E1E;
+    --heading:'Archivo','IBM Plex Sans KR',sans-serif;
+    --mono:ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans KR',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;line-height:1.6;font-size:15.5px;-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1160px;margin:0 auto;padding-inline:24px}
+  h1,h2,h3,h4,h5{font-family:var(--heading);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  h2{font-size:clamp(26px,3.4vw,36px)}
+  .eyebrow{font-family:var(--heading);font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-size:15px;font-weight:700;transition:background .2s,color .2s}
+  .btn-kakao{background:var(--kakao);color:var(--kakao-ink)}
+  .btn-kakao:hover{background:#F2D900}
+  .btn-line{border:2px solid var(--text)}
+  .btn-line:hover{background:var(--text);color:var(--bg)}
+  .tag{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px}
+  .tag-neutral{background:var(--surface);color:var(--n-700)}
+  .tag-accent{background:var(--accent-200);color:var(--accent-700)}
+  a:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  .note-bar{background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;gap:14px;padding:9px 16px;font-size:12.5px;font-weight:600;flex-wrap:wrap}
+  .note-bar a{color:var(--accent-200);font-weight:700}
+
+  /* nav */
+  nav.top{position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:2px solid var(--divider)}
+  .nav-in{display:flex;align-items:center;gap:20px;flex-wrap:wrap;white-space:nowrap;padding-block:16px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--heading);font-weight:800;font-size:16px}
+  .brand .sq{width:12px;height:12px;background:var(--accent);display:inline-block}
+  .nav-links{display:flex;align-items:center;gap:26px;margin:0 auto;font-size:14px;font-weight:600}
+  .nav-links a:hover{color:var(--accent-700)}
+  .nav-in .btn{padding:9px 17px;font-size:13.5px}
+
+  /* hero */
+  .hero{padding:72px 24px 80px;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;align-items:end;max-width:1160px;margin:0 auto}
+  .hero h1{font-size:clamp(38px,5vw,58px);margin-bottom:20px}
+  .hero .lede{font-size:17px;max-width:46ch;color:var(--n-700)}
+  .hero .ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;white-space:nowrap}
+  .mascot{display:flex;align-items:center;gap:12px;margin-top:36px}
+  .slot{background:var(--surface);border:1px dashed var(--divider);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;color:var(--n-600);text-align:center;padding:8px}
+  .gray{filter:grayscale(1)}
+  figure{min-width:0}
+  figcaption{font-size:12.5px;color:var(--n-600);margin-top:10px}
+
+  /* section frame */
+  section{border-top:2px solid var(--divider)}
+  .sec{max-width:1160px;margin:0 auto;padding:64px 24px}
+  .sec h2{margin-bottom:40px}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:40px}
+  .sec-head h2{margin:0}
+
+  /* top-border item grid (services/process) */
+  .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:32px 28px}
+  .titem{border-top:2px solid var(--text);padding-top:14px}
+  .titem .no{font-size:12px;color:var(--accent);letter-spacing:.08em;margin-bottom:8px;font-weight:700}
+  .titem h4{font-size:17px;margin-bottom:8px}
+  .titem p{font-size:14px;color:var(--n-700)}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px}
+  .pstep{border-top:2px solid var(--text);padding-top:14px}
+  .pstep .big-no{font-family:var(--heading);font-weight:800;font-size:28px;color:var(--accent);margin-bottom:10px}
+  .pstep h5{font-size:15px;margin-bottom:6px}
+  .pstep p{font-size:13px;color:var(--n-700)}
+
+  /* pricing table */
+  .table-scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;min-width:640px}
+  th{font-family:var(--heading);font-size:13px;text-align:left;padding:12px 14px;border-bottom:2px solid var(--text);letter-spacing:.04em}
+  td{padding:14px;border-bottom:1px solid var(--divider);font-size:14.5px;vertical-align:top}
+  .fn{font-size:13px;color:var(--n-600);margin-top:16px}
+
+  /* cases */
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:36px 28px}
+  .thumb{position:relative;width:100%;aspect-ratio:16/9;max-width:100%}
+  .badge{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;background:var(--n-900);color:var(--bg);font-size:12px;font-weight:700;padding:3px 9px;pointer-events:none}
+  .badge .dot{width:6px;height:6px;background:var(--accent-400);display:inline-block}
+  .case-meta{display:flex;gap:12px;margin-top:14px;align-items:flex-start}
+  .case-meta .avatar{width:42px;height:42px;flex:none}
+  .case-meta h5{font-size:15px;margin-bottom:3px}
+  .case-meta p{font-size:13px;color:var(--n-700)}
+  .case-tags{display:flex;gap:6px;margin-top:10px;margin-left:54px;flex-wrap:wrap}
+
+  /* boards (강좌/QNA) */
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .bcol .bhead{display:flex;align-items:baseline;justify-content:space-between;border-top:2px solid var(--text);padding-top:14px;margin-bottom:6px}
+  .bcol h4{font-size:17px}
+  .bcol .bhead a{font-size:13px;font-weight:700;color:var(--accent-700)}
+  .brow{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-block:11px;border-bottom:1px solid var(--divider);font-size:14.5px}
+  .brow .t{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .brow .m{font-size:12px;color:var(--n-600);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .brow:hover .t{color:var(--accent-700)}
+
+  /* about */
+  .agrid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;align-items:start}
+  .agrid .lede{font-size:16px;color:var(--n-700);max-width:52ch}
+  .stats{display:flex;gap:40px;flex-wrap:wrap;margin-top:30px}
+  .stat b{display:block;font-family:var(--heading);font-weight:800;font-size:30px;color:var(--accent-600)}
+  .stat span{font-size:12.5px;color:var(--n-600)}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+  .mem{border-top:2px solid var(--text);padding-top:12px}
+  .mem .photo{width:100%;aspect-ratio:1/1;margin-bottom:10px}
+  .mem h5{font-size:14.5px}
+  .mem .role{font-size:12.5px;color:var(--accent-700);font-weight:700}
+
+  /* shop band */
+  .shop-band{background:var(--accent);color:var(--bg);border-top:none}
+  .shop-grid{max-width:1160px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:40px;align-items:center}
+  .shop-grid .eyebrow{color:var(--bg);opacity:.85}
+  .shop-grid h2{font-size:clamp(30px,4vw,44px);margin-bottom:12px}
+  .shop-grid p{font-size:16px;margin-bottom:24px;max-width:52ch}
+  .btn-onaccent{background:var(--bg);color:var(--accent-700)}
+  .shop-grid .slot{border-color:rgba(243,242,240,.5);background:rgba(0,0,0,.12);color:var(--accent-200)}
+
+  footer{border-top:2px solid var(--divider)}
+  .foot{max-width:1160px;margin:0 auto;padding:40px 24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot .co{font-family:var(--heading);font-weight:800;font-size:16px;margin-bottom:8px}
+  .foot p{font-size:12px;color:var(--n-600)}
+  .foot-links{display:flex;gap:24px;font-size:13px;font-weight:600}
+  .foot-links a:hover{color:var(--accent-700)}
+
+  @media (max-width:860px){
+    .nav-links{display:none}
+    .hero{grid-template-columns:1fr;gap:32px;padding-block:52px 60px}
+    .agrid{grid-template-columns:1fr;gap:36px}
+    .shop-grid{grid-template-columns:1fr}
+    .bgrid{grid-template-columns:1fr}
+  }
+  @media (max-width:600px){
+    .wrap,.sec,.hero,.shop-grid,.foot{padding-inline:18px}
+    .mgrid{grid-template-columns:1fr 1fr;gap:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="note-bar"><span>에디토리얼 시안 · v4</span><span style="opacity:.5">|</span><a href="./index.html">벤토형(v2)</a><a href="./v3.html">밴드형(v3)</a></div>
+
+<nav class="top">
+  <div class="wrap nav-in">
+    <div class="brand"><span class="sq"></span>닥터고블린컴퍼니</div>
+    <div class="nav-links">
+      <a href="#services">서비스</a>
+      <a href="#pricing">비용</a>
+      <a href="#cases">세팅 사례</a>
+      <a href="#learn">강좌·QNA</a>
+      <a href="#about">소개</a>
+      <a href="#" style="color:var(--accent-700)">쇼핑몰 ↗</a>
+    </div>
+    <a class="btn btn-kakao" href="#">카카오톡 상담</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">All-in-one Broadcast Setting</div>
+    <h1>인터넷 방송 세팅,<br>상담부터 AS까지<br>한 번에.</h1>
+    <p class="lede">개인 방송실부터 스튜디오·현장 중계까지. 무엇이 필요한지 몰라도 카카오톡으로 상황만 말씀하시면, 견적부터 방문 세팅과 2주 무상 AS까지 책임집니다.</p>
+    <div class="ctas">
+      <a class="btn btn-kakao" href="#">카카오톡 상담하기</a>
+      <a class="btn btn-line" href="#pricing">세팅 비용 확인하기 →</a>
+    </div>
+    <div class="mascot">
+      <span class="slot" style="width:64px;height:64px">고블린 PNG</span>
+      <span style="font-size:12px;color:var(--n-600);font-family:var(--mono)">← 고블린 캐릭터 (포인트로만 사용)</span>
+    </div>
+  </div>
+  <figure>
+    <div class="slot gray" style="width:100%;aspect-ratio:4/3">대표 세팅 현장 사진 (흑백 처리)</div>
+    <figcaption>멀티캠 방송 스튜디오 구축 — 서울</figcaption>
+  </figure>
+</header>
+
+<section id="services">
+  <div class="sec">
+    <div class="eyebrow">Services</div>
+    <h2>제공 서비스</h2>
+    <div class="tgrid">
+      <div class="titem"><div class="no">01</div><h4>세팅 · 기술 지원</h4><p>OBS·오디오·영상 세팅, 원격 및 방문 기술 지원. 방송 트러블 해결까지.</p></div>
+      <div class="titem"><div class="no">02</div><h4>촬영 · 중계</h4><p>스튜디오·야외 행사 멀티캠 중계, 현장 송출과 로케이션 촬영.</p></div>
+      <div class="titem"><div class="no">03</div><h4>장비 · 공간 대여</h4><p>방송 장비 렌탈과 방송룸 대여. 필요한 기간만큼 예약해서 사용.</p></div>
+      <div class="titem"><div class="no">04</div><h4>소스 제작</h4><p>오버레이·알림·화면 소스 등 방송 디자인 리소스 제작.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="sec">
+    <div class="eyebrow">Pricing</div>
+    <h2 style="margin-bottom:8px">비용 안내</h2>
+    <p style="font-size:14px;color:var(--n-700);margin-bottom:32px">모든 가격은 부가세 포함이며, 방문 세팅은 지역별 출장비가 별도입니다. 정확한 금액은 상담 후 견적서로 확정됩니다.</p>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th style="width:26%">서비스</th><th>구성</th><th style="width:18%">비용</th><th style="width:16%">소요 시간</th></tr></thead>
+        <tbody>
+          <tr><td style="font-weight:700">원격 세팅</td><td style="color:var(--n-700)">OBS·오디오 기본 설정, 송출 테스트</td><td style="font-weight:700">55,000원</td><td>약 1시간</td></tr>
+          <tr><td style="font-weight:700">방문 세팅 · 기본</td><td style="color:var(--n-700)">1PC 방송, 마이크·캠·조명 설치 및 세팅</td><td style="font-weight:700">165,000원~</td><td>2–3시간</td></tr>
+          <tr><td style="font-weight:700">투컴 방송 세팅</td><td style="color:var(--n-700)">송출용 PC 분리, 캡처보드·오디오 라우팅</td><td style="font-weight:700">330,000원~</td><td>반나절</td></tr>
+          <tr><td style="font-weight:700">스튜디오 구축</td><td style="color:var(--n-700)">멀티캠·콘솔·방음 포함 공간 설계</td><td><span class="tag tag-accent">상담 후 견적</span></td><td>협의</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fn">* 표기 금액은 예시입니다 — 실제 가격표로 교체해 주세요. 모든 세팅에 2주 무상 AS가 포함됩니다.</p>
+  </div>
+</section>
+
+<section id="process">
+  <div class="sec">
+    <div class="eyebrow">Process</div>
+    <h2>신청부터 AS까지</h2>
+    <div class="pgrid">
+      <div class="pstep"><div class="big-no">01</div><h5>카카오톡 상담</h5><p>상황과 예산을 말씀해 주세요. 필요한 구성을 제안해 드립니다.</p></div>
+      <div class="pstep"><div class="big-no">02</div><h5>견적서 확인</h5><p>구성·비용·일정이 담긴 견적서를 보내드립니다.</p></div>
+      <div class="pstep"><div class="big-no">03</div><h5>결제</h5><p>견적 확정 후 결제하시면 일정이 예약됩니다.</p></div>
+      <div class="pstep"><div class="big-no">04</div><h5>방문 세팅</h5><p>예약일에 방문해 설치·세팅하고 송출 테스트까지 마칩니다.</p></div>
+      <div class="pstep"><div class="big-no">05</div><h5>2주 무상 AS</h5><p>세팅 후 2주간 문제가 생기면 무상으로 지원합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="sec">
+    <div class="sec-head">
+      <div><div class="eyebrow">Our Work</div><h2>세팅 사례</h2></div>
+      <a class="btn btn-line" href="#" style="padding:10px 18px;font-size:13.5px">사례 전체 보기 →</a>
+    </div>
+    <div class="cgrid">
+      <figure>
+        <div class="thumb"><span class="slot gray" style="position:absolute;inset:0">방송 화면 캡처 1</span><span class="badge"><span class="dot"></span>1,171</span></div>
+        <div class="case-meta"><span class="slot avatar"></span><div><h5>BJ명 (교체)</h5><p>방송국 이름 (교체)</p></div></div>
+        <div class="case-tags"><span class="tag tag-neutral">스튜디오 구축</span><span class="tag tag-neutral">멀티캠</span><span class="tag tag-neutral">오디오 콘솔</span></div>
+      </figure>
+      <figure>
+        <div class="thumb"><span class="slot gray" style="position:absolute;inset:0">방송 화면 캡처 2</span><span class="badge"><span class="dot"></span>834</span></div>
+        <div class="case-meta"><span class="slot avatar"></span><div><h5>BJ명 (교체)</h5><p>방송국 이름 (교체)</p></div></div>
+        <div class="case-tags"><span class="tag tag-neutral">개인 방송실</span><span class="tag tag-neutral">투컴</span><span class="tag tag-neutral">조명</span></div>
+      </figure>
+      <figure>
+        <div class="thumb"><span class="slot gray" style="position:absolute;inset:0">방송 화면 캡처 3</span><span class="badge"><span class="dot"></span>2,907</span></div>
+        <div class="case-meta"><span class="slot avatar"></span><div><h5>BJ명 (교체)</h5><p>방송국 이름 (교체)</p></div></div>
+        <div class="case-tags"><span class="tag tag-neutral">야외 중계</span><span class="tag tag-neutral">현장 송출</span></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="learn">
+  <div class="sec">
+    <div class="eyebrow">Learn &amp; Ask</div>
+    <h2>강좌 · 무료 QNA</h2>
+    <div class="bgrid">
+      <div class="bcol">
+        <div class="bhead"><h4>강좌</h4><a href="#">전체 →</a></div>
+        <a class="brow" href="#"><span class="t">OBS 처음 설정, 이 순서대로 하면 됩니다</span><span class="m">조회 1,240</span></a>
+        <a class="brow" href="#"><span class="t">방송용 오디오 인터페이스 게인 잡는 법</span><span class="m">조회 986</span></a>
+        <a class="brow" href="#"><span class="t">투컴 세팅 — NDI로 소스 넘기기</span><span class="m">조회 754</span></a>
+        <a class="brow" href="#"><span class="t">조명 하나로 화면 때깔 바꾸는 배치법</span><span class="m">조회 613</span></a>
+      </div>
+      <div class="bcol">
+        <div class="bhead"><h4>무료 QNA <span class="tag tag-accent" style="vertical-align:2px">FREE</span></h4><a href="#">질문하기 →</a></div>
+        <a class="brow" href="#"><span class="t">마이크에서 화이트노이즈가 계속 들려요</span><span class="m">답변 완료</span></a>
+        <a class="brow" href="#"><span class="t">캡처보드 없이 스위치 방송 가능한가요?</span><span class="m">답변 완료</span></a>
+        <a class="brow" href="#"><span class="t">송출 비트레이트 얼마로 잡아야 하나요?</span><span class="m">답변 2</span></a>
+        <a class="brow" href="#"><span class="t">웹캠에서 미러리스로 넘어갈 타이밍</span><span class="m">답변 대기</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="sec">
+    <div class="agrid">
+      <div>
+        <div class="eyebrow">About Us</div>
+        <h2 style="margin-bottom:16px">방송 기술에 진심인 팀</h2>
+        <p class="lede">닥터고블린컴퍼니는 인터넷 방송의 기술 문제를 해결하는 팀입니다. 개인 방송인의 첫 세팅부터 기업 스튜디오 구축까지, 현장에서 쌓은 경험으로 방송 환경의 처음과 끝을 함께합니다.</p>
+        <div class="stats">
+          <div class="stat"><b>500+</b><span>누적 세팅</span></div>
+          <div class="stat"><b>4.9</b><span>상담 만족도</span></div>
+          <div class="stat"><b>전국</b><span>출장 가능 지역</span></div>
+        </div>
+      </div>
+      <div class="mgrid">
+        <div class="mem"><span class="slot photo gray">사진</span><h5>대표 · 닥터고블린</h5><div class="role">총괄 · 세팅 디렉터</div></div>
+        <div class="mem"><span class="slot photo gray">사진</span><h5>팀원 이름</h5><div class="role">촬영 · 중계</div></div>
+        <div class="mem"><span class="slot photo gray">사진</span><h5>팀원 이름</h5><div class="role">디자인 · 소스</div></div>
+        <div class="mem"><span class="slot photo gray">사진</span><h5>팀원 이름</h5><div class="role">기술 지원</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="shop-band">
+  <div class="shop-grid">
+    <div>
+      <div class="eyebrow">Shop</div>
+      <h2>방송 장비 구매가 필요하다면?</h2>
+      <p>마이크·캠·조명 등 방송 장비, 조립 PC, 방송용 소스·오버레이는 쇼핑몰에서 따로 구매하실 수 있습니다.</p>
+      <a class="btn btn-onaccent" href="#">쇼핑몰 바로가기 →</a>
+    </div>
+    <div style="justify-self:end"><span class="slot" style="width:180px;height:180px">고블린 캐릭터 PNG</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div>
+      <div class="co">닥터고블린컴퍼니</div>
+      <p>라이브 스트리밍 전문 토탈 솔루션 제공 기업<br>사업자등록번호·주소·대표자명 (실제 정보로 교체)</p>
+    </div>
+    <div class="foot-links">
+      <a href="#">카카오톡 상담</a>
+      <a href="#">쇼핑몰</a>
+      <a href="https://drgo.pro">drgo.pro</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
